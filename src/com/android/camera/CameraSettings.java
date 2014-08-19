@@ -67,6 +67,11 @@ public class CameraSettings {
     public static final String KEY_PHOTOSPHERE_PICTURESIZE = "pref_photosphere_picturesize_key";
     public static final String KEY_STARTUP_MODULE_INDEX = "camera.startup_module";
 
+    public static final String FLIP_MODE_OFF = "off";
+    public static final String FLIP_MODE_V = "flip-v";
+    public static final String FLIP_MODE_H = "flip-h";
+    public static final String FLIP_MODE_VH = "flip-vh";
+
     public static final String EXPOSURE_DEFAULT_VALUE = "0";
 
     public static final int CURRENT_VERSION = 5;

@@ -1,0 +1,62 @@
+<!--
+    Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+    Copyright (C) 2013-2014 The CyanogenMod Project
+
+    Not a Contribution.
+
+    Copyright (C) 2007 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<resources>
+
+    <!-- Default auto exposure setting. Do not translate. -->
+    <string name="pref_camera_autoexposure_default" translatable="false">frame-average</string>
+
+    <!-- Default selectable zone af setting. Do not translate. -->
+    <string name="pref_camera_selectablezoneaf_default" translatable="false">auto</string>
+
+    <!-- Default redeye reduction setting. -->
+    <string name="pref_camera_redeyereduction_default" translatable="false">disable</string>
+
+    <!-- Denoise Settings screen, setting title text -->
+    <string name="pref_camera_denoise_default" translatable="false">denoise-off</string>
+
+    <!-- Default iso setting. Do not translate. -->
+    <string name="pref_camera_iso_default" translatable="false">auto</string>
+    <!-- Default Anti Banding setting. -->
+    <string name="pref_camera_antibanding_default" translatable="false">auto</string>
+
+    <!-- Default sharpness setting. Do not translate. -->
+    <string name="pref_camera_sharpness_default" translatable="false">2</string>
+
+    <!-- Default contrast setting. Do not translate. -->
+    <string name="pref_camera_contrast_default" translatable="false">5</string>
+
+    <!-- Default saturation setting. Do not translate. -->
+    <string name="pref_camera_saturation_default" translatable="false">5</string>
+
+
+    <!-- Default picture quality setting. See
+         pref_camera_jpegquality_entryvalues for possible values -->
+    <string name="pref_camera_jpegquality_default" translatable="false">85</string>
+
+    <!-- Default Picture format setting. Do not translate. -->
+    <string name="pref_camera_picture_format_default" translatable="false">jpeg</string>
+
+    <!-- Picture format entry values. Do not translate. -->
+    <string name="pref_camera_picture_format_value_jpeg" translatable="false">jpeg</string>
+
+    <string name="pref_camera_videosnapsize_default" translatable="false">1920x1080</string>
+</resources>

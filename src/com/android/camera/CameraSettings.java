@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
@@ -34,8 +35,11 @@ import com.android.camera.util.GcamHelper;
 import com.android.camera2.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
+import java.util.StringTokenizer;
 
 /**
  *  Provides utilities and keys for Camera settings.
@@ -51,6 +55,7 @@ public class CameraSettings {
     public static final String KEY_PICTURE_SIZE = "pref_camera_picturesize_key";
     public static final String KEY_JPEG_QUALITY = "pref_camera_jpegquality_key";
     public static final String KEY_FOCUS_MODE = "pref_camera_focusmode_key";
+    public static final String KEY_FOCUS_TIME = "pref_camera_focustime_key";
     public static final String KEY_FLASH_MODE = "pref_camera_flashmode_key";
     public static final String KEY_VIDEOCAMERA_FLASH_MODE = "pref_camera_video_flashmode_key";
     public static final String KEY_WHITE_BALANCE = "pref_camera_whitebalance_key";
@@ -61,21 +66,86 @@ public class CameraSettings {
     public static final String KEY_VIDEO_EFFECT = "pref_video_effect_key";
     public static final String KEY_CAMERA_ID = "pref_camera_id_key";
     public static final String KEY_CAMERA_HDR = "pref_camera_hdr_key";
+    public static final String KEY_CAMERA_HQ = "pref_camera_hq_key";
     public static final String KEY_CAMERA_HDR_PLUS = "pref_camera_hdr_plus_key";
     public static final String KEY_CAMERA_FIRST_USE_HINT_SHOWN = "pref_camera_first_use_hint_shown_key";
     public static final String KEY_VIDEO_FIRST_USE_HINT_SHOWN = "pref_video_first_use_hint_shown_key";
     public static final String KEY_PHOTOSPHERE_PICTURESIZE = "pref_photosphere_picturesize_key";
     public static final String KEY_STARTUP_MODULE_INDEX = "camera.startup_module";
+    public static final String KEY_STORAGE = "pref_camera_storage_key";
+    public static final String KEY_SUPERZOOM = "pref_camera_superzoom";
+
+    public static final String KEY_POWER_SHUTTER = "pref_power_shutter";
+    public static final String KEY_VIDEO_ENCODER = "pref_camera_videoencoder_key";
+    public static final String KEY_AUDIO_ENCODER = "pref_camera_audioencoder_key";
+    public static final String KEY_VIDEO_DURATION = "pref_camera_video_duration_key";
+    public static final String KEY_POWER_MODE = "pref_camera_powermode_key";
+    public static final String KEY_PICTURE_FORMAT = "pref_camera_pictureformat_key";
+    public static final String KEY_COLOR_EFFECT = "pref_camera_coloreffect_key";
+    public static final String KEY_VIDEOCAMERA_COLOR_EFFECT = "pref_camera_video_coloreffect_key";
+    public static final String KEY_FACE_DETECTION = "pref_camera_facedetection_key";
+    public static final String KEY_SELECTABLE_ZONE_AF = "pref_camera_selectablezoneaf_key";
+    public static final String KEY_SATURATION = "pref_camera_saturation_key";
+    public static final String KEY_CONTRAST = "pref_camera_contrast_key";
+    public static final String KEY_SHARPNESS = "pref_camera_sharpness_key";
+    public static final String KEY_AUTOEXPOSURE = "pref_camera_autoexposure_key";
+    public static final String KEY_ANTIBANDING = "pref_camera_antibanding_key";
+    public static final String KEY_ISO = "pref_camera_iso_key";
+    public static final String KEY_LENSSHADING = "pref_camera_lensshading_key";
+    public static final String KEY_HISTOGRAM = "pref_camera_histogram_key";
+    public static final String KEY_DENOISE = "pref_camera_denoise_key";
+    public static final String KEY_REDEYE_REDUCTION = "pref_camera_redeyereduction_key";
+    public static final String KEY_AE_BRACKET_HDR = "pref_camera_ae_bracket_hdr_key";
+
+    public static final String KEY_VIDEO_SNAPSHOT_SIZE = "pref_camera_videosnapsize_key";
+    public static final String KEY_VIDEO_HIGH_FRAME_RATE = "pref_camera_hfr_key";
+    public static final String KEY_VIDEO_HDR = "pref_camera_video_hdr_key";
+    public static final String DEFAULT_VIDEO_QUALITY_VALUE = "custom";
+    public static final String KEY_SKIN_TONE_ENHANCEMENT = "pref_camera_skinToneEnhancement_key";
+    public static final String KEY_SKIN_TONE_ENHANCEMENT_FACTOR = "pref_camera_skinToneEnhancement_factor_key";
+
+    public static final String KEY_FACE_RECOGNITION = "pref_camera_facerc_key";
+    public static final String KEY_DIS = "pref_camera_dis_key";
+
+    private static final String KEY_QC_SUPPORTED_AE_BRACKETING_MODES = "ae-bracket-hdr-values";
+    private static final String KEY_QC_SUPPORTED_FACE_RECOGNITION_MODES = "face-recognition-values";
+    private static final String KEY_QC_SUPPORTED_DIS_MODES = "dis-values";
+    public static final String KEY_QC_AE_BRACKETING = "ae-bracket-hdr";
+    public static final String KEY_QC_FACE_RECOGNITION = "face-recognition";
+    public static final String KEY_QC_DIS_MODE = "dis";
+
+    //for flip
+    public static final String KEY_QC_PREVIEW_FLIP = "preview-flip";
+    public static final String KEY_QC_VIDEO_FLIP = "video-flip";
+    public static final String KEY_QC_SNAPSHOT_PICTURE_FLIP = "snapshot-picture-flip";
+    public static final String KEY_QC_SUPPORTED_FLIP_MODES = "flip-mode-values";
 
     public static final String FLIP_MODE_OFF = "off";
     public static final String FLIP_MODE_V = "flip-v";
     public static final String FLIP_MODE_H = "flip-h";
     public static final String FLIP_MODE_VH = "flip-vh";
 
-    public static final String EXPOSURE_DEFAULT_VALUE = "0";
+    private static final String KEY_QC_PICTURE_FORMAT = "picture-format-values";
+    private static final String VIDEO_QUALITY_HIGH = "high";
+    private static final String VIDEO_QUALITY_MMS = "mms";
+    private static final String VIDEO_QUALITY_YOUTUBE = "youtube";
 
-    public static final int CURRENT_VERSION = 5;
-    public static final int CURRENT_LOCAL_VERSION = 2;
+    public static final String KEY_BURST_MODE = "pref_camera_burst_key";
+    public static final String KEY_BEAUTY_MODE = "pref_camera_beauty_mode";
+    public static final String KEY_SLOW_SHUTTER = "pref_camera_slow_shutter";
+    public static final String KEY_ASD = "pref_camera_asd";
+
+    public static final String EXPOSURE_DEFAULT_VALUE = "0";
+    public static final String VALUE_ON = "on";
+    public static final String VALUE_OFF = "off";
+
+    public static final int CURRENT_VERSION = 7;
+    public static final int CURRENT_LOCAL_VERSION = 3;
+
+    public static final int DEFAULT_VIDEO_DURATION = 0; // no limit
+    private static final int MMS_VIDEO_DURATION = (CamcorderProfile.get(CamcorderProfile.QUALITY_LOW) != null) ?
+          CamcorderProfile.get(CamcorderProfile.QUALITY_LOW).duration :30;
+    private static final int YOUTUBE_VIDEO_DURATION = 15 * 60; // 15 mins
 
     private static final String TAG = "CameraSettings";
 
@@ -83,6 +153,11 @@ public class CameraSettings {
     private final Parameters mParameters;
     private final CameraInfo[] mCameraInfo;
     private final int mCameraId;
+
+    // Returned by QC's metadata callback
+    public static final int META_DATA_ASD = 1;
+    public static final int META_DATA_FD  = 2;
+    public static final int META_DATA_HDR = 3;
 
     public CameraSettings(Activity activity, Parameters parameters,
                           int cameraId, CameraInfo[] cameraInfo) {
@@ -159,6 +234,59 @@ public class CameraSettings {
         } catch (Resources.NotFoundException ex) {
         }
         return duration;
+    }
+
+    public static List<String> getSupportedFaceRecognitionModes(Parameters params) {
+        String str = params.get(KEY_QC_SUPPORTED_FACE_RECOGNITION_MODES);
+        if (str == null) {
+            return null;
+        }
+        return split(str);
+    }
+
+    public static List<String> getSupportedDISModes(Parameters params) {
+        String str = params.get(KEY_QC_SUPPORTED_DIS_MODES);
+        if (str == null) {
+            return null;
+        }
+        return split(str);
+    }
+
+    public static List<String> getSupportedAEBracketingModes(Parameters params) {
+        String str = params.get(KEY_QC_SUPPORTED_AE_BRACKETING_MODES);
+        if (str == null) {
+            return null;
+        }
+        return split(str);
+    }
+
+    // Splits a comma delimited string to an ArrayList of String.
+    // Return null if the passing string is null or the size is 0.
+    private static ArrayList<String> split(String str) {
+        if (str == null) return null;
+
+        // Use StringTokenizer because it is faster than split.
+        StringTokenizer tokenizer = new StringTokenizer(str, ",");
+        ArrayList<String> substrings = new ArrayList<String>();
+        while (tokenizer.hasMoreElements()) {
+            substrings.add(tokenizer.nextToken());
+        }
+        return substrings;
+    }
+    private List<String> getSupportedPictureFormatLists() {
+        String str = mParameters.get(KEY_QC_PICTURE_FORMAT);
+        if (str == null) {
+            str = "jpeg,raw"; // if not set, fall back to default behavior
+        }
+        return split(str);
+    }
+
+   public static List<String> getSupportedFlipMode(Parameters params){
+        String str = params.get(KEY_QC_SUPPORTED_FLIP_MODES);
+        if(str == null)
+            return null;
+
+        return split(str);
     }
 
     private void initPreference(PreferenceGroup group) {
@@ -413,6 +541,27 @@ public class CameraSettings {
             // ignore the current settings.
             editor.remove("pref_camera_videoquality_key");
             editor.remove("pref_camera_video_duration_key");
+            version = 4;
+        }
+        if (version == 4) {
+            // Just upgrade to version 5 directly
+            version = 5;
+        }
+        if (version == 5) {
+            // Just upgrade to version 6 directly
+            version = 6;
+        }
+        if (version == 6) {
+            // Change jpeg quality {normal,fine,superfine} back to {65,75,85}
+            String quality = pref.getString(KEY_JPEG_QUALITY, "superfine");
+            if (quality.equals("normal")) {
+                quality = "65";
+            } else if (quality.equals("fine")) {
+                quality = "75";
+            } else {
+                quality = "85";
+            }
+            editor.putString(KEY_JPEG_QUALITY, quality);
         }
 
         editor.putInt(KEY_VERSION, CURRENT_VERSION);
@@ -503,5 +652,41 @@ public class CameraSettings {
             supported.add(Integer.toString(CamcorderProfile.QUALITY_480P));
         }
         return supported;
+    }
+
+    /**
+     * Enable video mode for certain cameras.
+     *
+     * @param params
+     * @param on
+     */
+    public static void setVideoMode(Parameters params, boolean on) {
+        if (CameraUtil.useSamsungCamMode()) {
+            params.set("cam_mode", on ? "1" : "0");
+        }
+    }
+
+    public static List<String> getSupportedSlowShutter(Parameters params) {
+        String p = params.get("exposure-time-values");
+        if (p != null) {
+            return Arrays.asList(p.split(","));
+        }
+        return null;
+    }
+
+    public static void setSlowShutter(Parameters params, String value) {
+        if (getSupportedSlowShutter(params) != null) {
+            params.set("exposure-time", value);
+        }
+    }
+
+    public static boolean isSlowShutterEnabled(Parameters params) {
+        return (getSupportedSlowShutter(params) != null) &&
+                !"0".equals(params.get("exposure-time"));
+    }
+
+    public static boolean useZSLBurst(Parameters params) {
+        return CameraUtil.isZSLEnabled() &&
+                params.get("num-snaps-per-shutter") != null;
     }
 }
